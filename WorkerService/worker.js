@@ -1,89 +1,50 @@
 import axios from "axios";
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-// API endpoint
-const apiUrlServerA = "https://localhost:7296/api";
-const apiUrlServerB = "https://localhost:7169/api";
-
-// Schema
-const Facility = "Facility";
-const Resident = "Resident";
-const ProgressNote = "ProgressNote";
-
-const syncDataFacility = async () => {
-  try {
-    const resA = await axios.get(
-      `${apiUrlServerA}/${Facility}/get-all-facility`
-    );
-    const dataA = resA.data;
-
-    // //delete old data of ServerB
-    await axios.delete(`${apiUrlServerB}/${Facility}/delete-all-facility`);
-    // //Send dataA to API B
-    const resB = await axios.post(
-      `${apiUrlServerB}/${Facility}/add-list-facility`,
-      dataA
-    );
-
-    console.log("Data Facility synced successfully! ", resB.data);
-  } catch (error) {
-    console.error("Error syncing data Facility:", error.message);
-  }
+const config = {
+  apiUrlServerA: "https://localhost:7296/api",
+  apiUrlServerB: "https://localhost:7169/api",
+  apiEndpoints: {
+    Facility: "Facility",
+    Resident: "Resident",
+    ProgressNote: "ProgressNote",
+  },
 };
 
-const syncDataResident = async () => {
+const syncData = async (endpoint) => {
   try {
     const resA = await axios.get(
-      `${apiUrlServerA}/${Resident}/get-all-resident`
+      `${config.apiUrlServerA}/${endpoint}/get-all-${endpoint}`
     );
     const dataA = resA.data;
 
-    //delete old data of ServerB
-    await axios.delete(`${apiUrlServerB}/${Resident}/delete-all-resident`);
-    //Send dataA to API B
-    const resB = await axios.post(
-      `${apiUrlServerB}/${Resident}/add-list-resident`,
-      dataA
-    );
-
-    console.log("Data Resident synced successfully! ", resB.data);
-  } catch (error) {
-    console.error("Error syncing data Resident:", error.message);
-  }
-};
-
-const syncDataProgressNote = async () => {
-  try {
-    const resA = await axios.get(
-      `${apiUrlServerA}/${ProgressNote}/get-all-progressNote`
-    );
-    const dataA = resA.data;
-
-    //delete old data of ServerB
+    // Delete old data on ServerB
     await axios.delete(
-      `${apiUrlServerB}/${ProgressNote}/delete-all-progressNote`
+      `${config.apiUrlServerB}/${endpoint}/delete-all-${endpoint}`
     );
-    //Send dataA to API B
+
+    // Send dataA to API B
     const resB = await axios.post(
-      `${apiUrlServerB}/${ProgressNote}/add-list-progressNote`,
+      `${config.apiUrlServerB}/${endpoint}/add-list-${endpoint}`,
       dataA
     );
 
-    console.log("Data ProgressNote synced successfully! ", resB.data);
+    console.log(`Data ${endpoint} synced successfully!`, resB.data);
   } catch (error) {
-    console.error("Error syncing data ProgressNote:", error.message);
+    console.error(`Error syncing data ${endpoint}:`, error.message);
   }
 };
 
-// Function to call the three sync functions sequentially
 const syncAllData = async () => {
-  await syncDataFacility();
-  await syncDataResident();
-  await syncDataProgressNote();
+  const { apiEndpoints } = config;
+  const endpointKeys = Object.keys(apiEndpoints);
+
+  await Promise.all(
+    endpointKeys.map((endpoint) => syncData(apiEndpoints[endpoint]))
+  );
 };
 
-// Set up a timer to run the syncAllData function every 30 seconds
-setInterval(syncAllData, 5000);
+// Set up a timer to run the syncAllData function every 10 seconds
+setInterval(syncAllData, 10000);
 
 // Start the initial sync immediately
 syncAllData();
