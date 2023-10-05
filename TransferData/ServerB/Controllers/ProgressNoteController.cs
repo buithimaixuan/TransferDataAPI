@@ -10,7 +10,7 @@ namespace ServerB.Controllers
     [ApiController]
     public class ProgressNoteController : Controller
     {
-        public ProgressNoteService _progressNoteService;
+        private readonly ProgressNoteService _progressNoteService;
         public ProgressNoteController(ProgressNoteService progressNoteService)
         {
             _progressNoteService = progressNoteService;

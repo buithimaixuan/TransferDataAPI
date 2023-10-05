@@ -10,7 +10,7 @@ namespace ServerB.Controllers
     [ApiController]
     public class ResidentController : Controller
     {
-        public ResidentService _residentService;
+        private readonly ResidentService _residentService;
         public ResidentController(ResidentService residentService)
         {
             _residentService = residentService;

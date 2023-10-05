@@ -9,7 +9,7 @@ namespace ServerB.Controllers
     [ApiController]
     public class FacilityController : Controller
     {
-        public FacilityService _facilityService;
+        private readonly FacilityService _facilityService;
         public FacilityController(FacilityService facilityService)
         {
             _facilityService = facilityService;
