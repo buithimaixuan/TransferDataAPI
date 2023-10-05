@@ -1,3 +1,8 @@
+# Run Docker to host SQL Server
+
+- docker compose build
+- docker compose up
+
 # TransferData
 
 ## At ServerA:
