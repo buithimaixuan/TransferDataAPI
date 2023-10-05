@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServerB.Data.Models;
-using ServerB.Data.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,80 +9,74 @@ namespace ServerB.Data.Services
 {
 	public class ProgressNoteService
 	{
-        private AppDbContext _context;
+        private AppDbContext context;
 
-        public ProgressNoteService(AppDbContext context)
+        public ProgressNoteService(AppDbContext contextParam)
         {
-            _context = context;
+            context = contextParam;
         }
 
-        public async Task AddProgressNoteAsync(ProgressNote progressNote)
+        //----
+        public async Task<List<ProgressNote>> GetDataProgressNotesServerA()
         {
-            var _progressNote = new ProgressNote()
-            {
-                Id = progressNote.Id,
-                Content = progressNote.Content,
-                Type = progressNote.Type,
-                CreatedDate = progressNote.CreatedDate,
-                ResidentId = progressNote.ResidentId
-            };
-           await _context.ProgressNotes.AddAsync(_progressNote);
-           await _context.SaveChangesAsync();
+            HttpClient httpClient = new HttpClient();
+
+            //get data from ServerA
+            var progressNotes = await httpClient.GetFromJsonAsync<List<ProgressNote>>("https://localhost:7296/api/ProgressNote/get-all-progressNote");
+
+            return progressNotes;
         }
 
-        public async Task AddListProgressNoteAsync(List<ProgressNote> progressNotes)
+        public async Task<List<ProgressNote>> GetDataProgressNotesServerB()
         {
-            var progressNoteEntities = progressNotes.Select(progressNote => new ProgressNote
-            {
-                Id = progressNote.Id,
-                Content = progressNote.Content,
-                Type = progressNote.Type,
-                CreatedDate = progressNote.CreatedDate,
-                ResidentId = progressNote.ResidentId
-            }).ToList();
-
-            await _context.ProgressNotes.AddRangeAsync(progressNoteEntities);
-            await _context.SaveChangesAsync();
+            var progressNotes = await context.ProgressNotes.ToListAsync();
+            return progressNotes;
         }
 
-        public async Task<List<ProgressNote>> GetAllProgressNoteAsync() => await _context.ProgressNotes.ToListAsync();
-
-        public async Task<ProgressNote> GetProgressNoteByIdAsync(int id) => await _context.ProgressNotes.FirstOrDefaultAsync(p => p.Id == id);
-
-        public async Task<ProgressNote> UpdateProgressNoteAsync(int id, ProgressNoteVM progressNote)
+        public async Task SyncData()
         {
-            var _progressNote = await _context.ProgressNotes.FirstOrDefaultAsync(p => p.Id == id);
-            if (_progressNote != null)
+            var dataServerA = await GetDataProgressNotesServerA();
+            var dataServerB = await GetDataProgressNotesServerB();
+
+            var addProgressNotes = new List<ProgressNote>();
+            var updateProgressNotes = new List<ProgressNote>();
+            var deleteProgressNotes = new List<ProgressNote>();
+
+
+            foreach (var progressNote in dataServerA)
             {
-                _progressNote.Content = progressNote.Content;
-                _progressNote.Type = progressNote.Content;
-                _progressNote.CreatedDate = progressNote.CreatedDate;
-                _progressNote.ResidentId = progressNote.ResidentId;
-                _context.ProgressNotes.Update(_progressNote);
-                _context.SaveChanges();
+                var isExisted = dataServerB.Any(c => c.Id == progressNote.Id);
+                if (isExisted)
+                {
+                    updateProgressNotes.Add(progressNote);
+                }
+                addProgressNotes.Add(progressNote);
             }
-            return _progressNote;
-        }
 
-        public async Task<bool> DeleteProgressNoteAsync(int id)
-        {
-            var _progressNote = await _context.ProgressNotes.FirstOrDefaultAsync(f => f.Id == id);
-            if (_progressNote != null)
+            foreach (var progressNote in dataServerB)
             {
-                _context.ProgressNotes.Remove(_progressNote);
-                _context.SaveChanges();
-                return true;
+                var isExisted = dataServerA.Any(c => c.Id == progressNote.Id);
+                if (!isExisted)
+                {
+                    deleteProgressNotes.Add(progressNote);
+                }
             }
-            return false;
+            if (addProgressNotes.Count > 0)
+            {
+                context.ProgressNotes.AddRange(addProgressNotes);
+            }
+            if (updateProgressNotes.Count > 0)
+            {
+                context.ProgressNotes.UpdateRange(updateProgressNotes);
+            }
+            if (deleteProgressNotes.Count > 0)
+            {
+                context.ProgressNotes.RemoveRange(deleteProgressNotes);
+            }
+            await context.SaveChangesAsync();
         }
 
-
-        public void DeleteAllProgressNote()
-        {
-            var _progressNote = _context.ProgressNotes.ToList();
-            _context.ProgressNotes.RemoveRange(_progressNote);
-            _context.SaveChanges();
-        }
+        //----
     }
 }
 

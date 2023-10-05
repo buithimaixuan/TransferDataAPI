@@ -21,13 +21,11 @@
     <None Remove="Data\" />
     <None Remove="Data\Models\" />
     <None Remove="Data\Services\" />
-    <None Remove="Data\ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Data\" />
     <Folder Include="Data\Models\" />
     <Folder Include="Data\Services\" />
-    <Folder Include="Data\ViewModels\" />
   </ItemGroup>
 </Project>

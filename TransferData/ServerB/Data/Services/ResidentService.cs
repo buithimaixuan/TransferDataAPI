@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServerB.Data.Models;
-using ServerB.Data.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,80 +9,73 @@ namespace ServerB.Data.Services
 {
     public class ResidentService
     {
-        private AppDbContext _context;
+        private AppDbContext context;
 
-        public ResidentService(AppDbContext context)
+        public ResidentService(AppDbContext contextParam)
         {
-            _context = context;
+            context = contextParam;
         }
 
-        public async Task AddResidentAsync(Resident resident)
+        //----
+        public async Task<List<Resident>> GetDataResidentsServerA()
         {
-            var _resident = new Resident()
-            {
-                Id = resident.Id,
-                FirstName = resident.FirstName,
-                LastName = resident.LastName,
-                DoB = resident.DoB,
-                FacilityId = resident.FacilityId
-            };
-            await _context.Residents.AddAsync(_resident);
-            await _context.SaveChangesAsync();
+            HttpClient httpClient = new HttpClient();
+
+            //get data from ServerA
+            var residents = await httpClient.GetFromJsonAsync<List<Resident>>("https://localhost:7296/api/Resident/get-all-resident");
+
+            return residents;
         }
 
-        public async Task AddListResidentAsync(List<Resident> residents)
+        public async Task<List<Resident>> GetDataResidentsServerB()
         {
-            var residentEntities = residents.Select(resident => new Resident
-            {
-                Id = resident.Id,
-                FirstName = resident.FirstName,
-                LastName = resident.LastName,
-                DoB = resident.DoB,
-                FacilityId = resident.FacilityId
-            }).ToList();
-
-            await _context.Residents.AddRangeAsync(residentEntities);
-            await _context.SaveChangesAsync();
+            var residents = await context.Residents.ToListAsync();
+            return residents;
         }
 
-        public async Task<List<Resident>> GetAllResidentAsync() => await _context.Residents.Include(x => x.Facility).Include(y => y.ProgressNotes).ToListAsync();
-
-        public async Task<Resident> GetResidentByIdAsync(int id) => await _context.Residents.Include(x => x.Facility).Include(y => y.ProgressNotes).FirstOrDefaultAsync(f => f.Id == id);
-        
-
-        public async Task<Resident> UpdateResidentAsync(int id, ResidentVM resident)
+        public async Task SyncData()
         {
-            var _resident = await _context.Residents.FirstOrDefaultAsync(f => f.Id == id);
-            if (_resident != null)
+            var dataServerA = await GetDataResidentsServerA();
+            var dataServerB = await GetDataResidentsServerB();
+
+            var addResidents = new List<Resident>();
+            var updateResidents = new List<Resident>();
+            var deleteResidents = new List<Resident>();
+
+
+            foreach (var resident in dataServerA)
             {
-                _resident.FirstName = resident.FirstName;
-                _resident.LastName = resident.LastName;
-                _resident.DoB = resident.DoB;
-                _resident.FacilityId = resident.FacilityId;
-                _context.Residents.Update(_resident);
-                _context.SaveChanges();
+                var isExisted = dataServerB.Any(c => c.Id == resident.Id);
+                if (isExisted)
+                {
+                    updateResidents.Add(resident);
+                }
+                addResidents.Add(resident);
             }
-            return _resident;
-        }
 
-        public async Task<bool> DeleteResidentAsync(int id)
-        {
-            var _resident = await _context.Residents.FirstOrDefaultAsync(f => f.Id == id);
-            if (_resident != null)
+            foreach (var resident in dataServerB)
             {
-                _context.Residents.Remove(_resident);
-                _context.SaveChanges();
-                return true;
+                var isExisted = dataServerA.Any(c => c.Id == resident.Id);
+                if (!isExisted)
+                {
+                    deleteResidents.Add(resident);
+                }
             }
-            return false;
+            if (addResidents.Count > 0)
+            {
+                context.Residents.AddRange(addResidents);
+            }
+            if (updateResidents.Count > 0)
+            {
+                context.Residents.UpdateRange(updateResidents);
+            }
+            if (deleteResidents.Count > 0)
+            {
+                context.Residents.RemoveRange(deleteResidents);
+            }
+            await context.SaveChangesAsync();
         }
 
-
-        public void DeleteAllResident()
-        {
-            var _resident = _context.Residents.ToList();
-            _context.Residents.RemoveRange(_resident);
-            _context.SaveChanges();
-        }
+        //----
     }
 }

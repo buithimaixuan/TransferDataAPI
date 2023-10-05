@@ -10,7 +10,7 @@ namespace ServerA.Controllers
     [ApiController]
     public class ResidentController : Controller
     {
-        public ResidentService _residentService;
+        private readonly ResidentService _residentService;
         public ResidentController(ResidentService residentService)
         {
             _residentService = residentService;
@@ -68,15 +68,11 @@ namespace ServerA.Controllers
             try
             {
                 var updatedResident = await _residentService.UpdateResidentAsync(id, resident);
-                if (updatedResident == null)
-                {
-                    return NotFound(); // Return a 404 response if the resident is not found.
-                }
                 return Ok(updatedResident);
             }
             catch (Exception ex)
             {
-                return BadRequest("An error occurred while updating the resident: " + ex.Message);
+                return NotFound();
             }
         }
 
@@ -85,15 +81,12 @@ namespace ServerA.Controllers
         {
             try
             {
-                var isDeletedSuccess = await _residentService.DeleteResidentAsync(id);
-                if (isDeletedSuccess) {
-                    return Ok();
-                }
-                return NotFound(); // Return a 404 response if the resident is not found.
+                await _residentService.DeleteResidentAsync(id);
+                return Ok();
             }
             catch (Exception ex)
             {
-                return BadRequest("An error occurred while deleting the resident: " + ex.Message);
+                return NotFound();
             }
         }
     }

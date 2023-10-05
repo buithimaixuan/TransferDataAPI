@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServerB.Data.Models;
-using ServerB.Data.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,80 +9,73 @@ namespace ServerB.Data.Services
 {
     public class FacilityService
     {
-        private AppDbContext _context;
+        private AppDbContext context;
 
-        public FacilityService(AppDbContext context)
+        public FacilityService(AppDbContext contextParam)
         {
-            _context = context;
+            context = contextParam;
         }
 
-        public async Task AddFacilityAsync(Facility facility)
+        //----
+        public async Task<List<Facility>> GetDataFacilitiesServerA()
         {
-            var _facility = new Facility()
+            HttpClient httpClient = new HttpClient();
+
+            //get data from ServerA
+            var facilities = await httpClient.GetFromJsonAsync<List<Facility>>("https://localhost:7296/api/Facility/get-all-facility");
+
+            return facilities;
+        }
+
+        public async Task<List<Facility>> GetDataFacilitiesServerB()
+        {
+            var facilities = await context.Facilities.ToListAsync();
+            return facilities;
+        }
+
+        public async Task SyncData()
+        {
+            var dataServerA = await GetDataFacilitiesServerA();
+            var dataServerB = await GetDataFacilitiesServerB();
+
+            var addFacilities = new List<Facility>();
+            var updateFacilities = new List<Facility>();
+            var deleteFacilities = new List<Facility>();
+
+
+            foreach (var facility in dataServerA)
             {
-                Id = facility.Id,
-                Name = facility.Name,
-                Address = facility.Address
-            };
-            await _context.Facilities.AddAsync(_facility);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task AddListFacilityAsync(List<Facility> facilities)
-        {
-            var facilityEntities = facilities.Select(facility => new Facility
-            {
-                Id = facility.Id,
-                Name = facility.Name,
-                Address = facility.Address
-            }).ToList();
-
-            await _context.Facilities.AddRangeAsync(facilityEntities);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<List<Facility>> GetAllFacilityAsync()
-        {
-            var _listFacility = await _context.Facilities.Include(x => x.Residents).ToListAsync();
-            return _listFacility;
-        }
-
-        public async Task<Facility> GetFacilityByIdAsync(int id)
-        {
-            var _facility = await _context.Facilities.Include(x => x.Residents).FirstOrDefaultAsync(r => r.Id == id);
-            return _facility;
-        }
-
-        public async Task<Facility> UpdateFacilityAsync(int id, FacilityVM facility)
-        {
-            var _facility = await _context.Facilities.FirstOrDefaultAsync(f => f.Id == id);
-            if (_facility != null)
-            {
-                _facility.Name = facility.Name;
-                _facility.Address = facility.Address;
-                _context.Facilities.Update(_facility);
-                _context.SaveChanges();
+                var isExisted = dataServerB.Any(c => c.Id == facility.Id);
+                if (isExisted)
+                {
+                    updateFacilities.Add(facility);
+                }
+                addFacilities.Add(facility);
             }
-            return _facility;
-        }
 
-        public async Task<bool> DeleteFacilityAsync(int id)
-        {
-            var _facility = await _context.Facilities.FirstOrDefaultAsync(f => f.Id == id);
-            if (_facility != null)
+            foreach (var facility in dataServerB)
             {
-                _context.Facilities.Remove(_facility);
-                _context.SaveChanges();
-                return true;
+                var isExisted = dataServerA.Any(c => c.Id == facility.Id);
+                if (!isExisted)
+                {
+                    deleteFacilities.Add(facility);
+                }
             }
-            return false;
+            if (addFacilities.Count > 0)
+            {
+                context.Facilities.AddRange(addFacilities);
+            }
+            if (updateFacilities.Count > 0)
+            {
+                context.Facilities.UpdateRange(updateFacilities);
+            }
+            if (deleteFacilities.Count > 0)
+            {
+                context.Facilities.RemoveRange(deleteFacilities);
+            }
+            await context.SaveChangesAsync();
         }
 
-        public void DeleteAllFacility()
-        {
-            var _facility = _context.Facilities.ToList();
-            _context.Facilities.RemoveRange(_facility);
-            _context.SaveChanges();
-        }
+        //----
     }
 }

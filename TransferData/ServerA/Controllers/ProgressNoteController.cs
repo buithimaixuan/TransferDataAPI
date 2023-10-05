@@ -10,7 +10,7 @@ namespace ServerA.Controllers
     [ApiController]
     public class ProgressNoteController : Controller
     {
-        public ProgressNoteService _progressNoteService;
+        private readonly ProgressNoteService _progressNoteService;
         public ProgressNoteController(ProgressNoteService progressNoteService)
         {
             _progressNoteService = progressNoteService;
@@ -21,8 +21,8 @@ namespace ServerA.Controllers
         {
             try
             {
-                var progressNote = await _progressNoteService.GetAllProgressNoteAsync();
-                return Ok(progressNote);
+                var progressNotes = await _progressNoteService.GetAllProgressNoteAsync();
+                return Ok(progressNotes);
             }
             catch (Exception ex)
             {
@@ -68,15 +68,11 @@ namespace ServerA.Controllers
             try
             {
                 var updatedProgressNote = await _progressNoteService.UpdateProgressNoteAsync(id, progressNote);
-                if (updatedProgressNote == null)
-                {
-                    return NotFound(); // Return a 404 response if the resident is not found.
-                }
                 return Ok(updatedProgressNote);
             }
             catch (Exception ex)
             {
-                return BadRequest("An error occurred while updating the progressNote: " + ex.Message);
+                return NotFound();
             }
         }
 
@@ -85,16 +81,12 @@ namespace ServerA.Controllers
         {
             try
             {
-                var isDeletedSuccess = await _progressNoteService.DeleteProgressNoteAsync(id);
-                if (isDeletedSuccess)
-                {
-                    return Ok();
-                }
-                return NotFound(); // Return a 404 response if the resident is not found.
+                await _progressNoteService.DeleteProgressNoteAsync(id);
+                return Ok();
             }
             catch (Exception ex)
             {
-                return BadRequest("An error occurred while deleting the progressNote: " + ex.Message);
+                return NotFound(); 
             }
         }
     }

@@ -10,55 +10,52 @@ namespace ServerA.Data.Services
 {
 	public class ProgressNoteService
 	{
-        private AppDbContext _context;
+        private AppDbContext context;
 
-        public ProgressNoteService(AppDbContext context)
+        public ProgressNoteService(AppDbContext contextParam)
         {
-            _context = context;
+            context = contextParam;
         }
 
-        public async Task AddProgressNoteAsync(ProgressNoteVM progressNote)
+        public async Task AddProgressNoteAsync(ProgressNoteVM progressNoteVM)
         {
-            var _progressNote = new ProgressNote()
+            var progressNote = new ProgressNote()
             {
-                Content = progressNote.Content,
-                Type = progressNote.Type,
-                CreatedDate = progressNote.CreatedDate,
-                ResidentId = progressNote.ResidentId
+                Content = progressNoteVM.Content,
+                Type = progressNoteVM.Type,
+                CreatedDate = progressNoteVM.CreatedDate,
+                ResidentId = progressNoteVM.ResidentId
             };
-            _context.ProgressNotes.Add(_progressNote);
-           await _context.SaveChangesAsync();
+            context.ProgressNotes.Add(progressNote);
+           await context.SaveChangesAsync();
         }
 
-        public async Task<List<ProgressNote>> GetAllProgressNoteAsync() => await _context.ProgressNotes.ToListAsync();
+        public async Task<List<ProgressNote>> GetAllProgressNoteAsync() => await context.ProgressNotes.ToListAsync();
 
-        public async Task<ProgressNote> GetProgressNoteByIdAsync(int id) => await _context.ProgressNotes.FirstOrDefaultAsync(p => p.Id == id);
+        public async Task<ProgressNote> GetProgressNoteByIdAsync(int id) => await context.ProgressNotes.FirstOrDefaultAsync(p => p.Id == id);
 
-        public async Task<ProgressNote> UpdateProgressNoteAsync(int id, ProgressNoteVM progressNote)
+        public async Task<ProgressNote> UpdateProgressNoteAsync(int id, ProgressNoteVM progressNoteVM)
         {
-            var _progressNote = await _context.ProgressNotes.FirstOrDefaultAsync(p => p.Id == id);
-            if (_progressNote != null)
-            {
-                _progressNote.Content = progressNote.Content;
-                _progressNote.Type = progressNote.Type;
-                _progressNote.CreatedDate = progressNote.CreatedDate;
-                _progressNote.ResidentId = progressNote.ResidentId;
-                _context.ProgressNotes.Update(_progressNote);
-                _context.SaveChanges();
-            }
-            return _progressNote;
+            var progressNote = await context.ProgressNotes.FirstOrDefaultAsync(p => p.Id == id);
+            if (progressNote == null) throw new Exception($"ProgressNote with ID {id} not found!");
+
+            progressNote.Content = progressNoteVM.Content;
+            progressNote.Type = progressNoteVM.Type;
+            progressNote.CreatedDate = progressNoteVM.CreatedDate;
+            progressNote.ResidentId = progressNoteVM.ResidentId;
+            context.ProgressNotes.Update(progressNote);
+            context.SaveChanges();
+            
+            return progressNote;
         }
 
-        public async Task<bool> DeleteProgressNoteAsync(int id)
+        public async Task DeleteProgressNoteAsync(int id)
         {
-            var _progressNote = await _context.ProgressNotes.FirstOrDefaultAsync(f => f.Id == id);
-            if (_progressNote != null)
-            {
-                _context.ProgressNotes.Remove(_progressNote);
-                _context.SaveChanges();
-                return true;
-            }
-            return false;
+            var progressNote = await context.ProgressNotes.FirstOrDefaultAsync(f => f.Id == id);
+            if (progressNote == null) throw new Exception($"ProgressNote with ID {id} not found!");
+
+            context.ProgressNotes.Remove(progressNote);
+            context.SaveChanges();
         }
     }
 }

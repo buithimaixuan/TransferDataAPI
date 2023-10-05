@@ -8,7 +8,7 @@ namespace ServerA.Controllers
     [ApiController]
     public class FacilityController : Controller
     {
-        public FacilityService _facilityService;
+        private readonly FacilityService _facilityService;
         public FacilityController(FacilityService facilityService)
         {
             _facilityService = facilityService;
@@ -66,15 +66,11 @@ namespace ServerA.Controllers
             try
             {
                 var updatedFacility = await _facilityService.UpdateFacilityAsync(id, facility);
-                if (updatedFacility == null)
-                {
-                    return NotFound(); // Return a 404 response if the resident is not found.
-                }
                 return Ok(updatedFacility);
             }
             catch (Exception ex)
             {
-                return BadRequest("An error occurred while updating the facility: " + ex.Message);
+                return NotFound();
             }
         }
 
@@ -83,16 +79,12 @@ namespace ServerA.Controllers
         {
             try
             {
-                var isDeletedSuccess = await _facilityService.DeleteFacilityAsync(id);
-                if (isDeletedSuccess)
-                {
-                    return Ok();
-                }
-                return NotFound(); // Return a 404 response if the resident is not found.
+                await _facilityService.DeleteFacilityAsync(id);
+                return Ok();
             }
             catch (Exception ex)
             {
-                return BadRequest("An error occurred while deleting the facility: " + ex.Message);
+                return NotFound();
             }
         }
 

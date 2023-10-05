@@ -10,56 +10,53 @@ namespace ServerA.Data.Services
 {
     public class ResidentService
     {
-        private AppDbContext _context;
+        private AppDbContext context;
 
-        public ResidentService(AppDbContext context)
+        public ResidentService(AppDbContext contextParam)
         {
-            _context = context;
+            context = contextParam;
         }
 
-        public async Task AddResidentAsync(ResidentVM resident)
+        public async Task AddResidentAsync(ResidentVM residentVM)
         {
-            var _resident = new Resident()
+            var resident = new Resident()
             {
-                FirstName = resident.FirstName,
-                LastName = resident.LastName,
-                DoB = resident.DoB,
-                FacilityId = resident.FacilityId
+                FirstName = residentVM.FirstName,
+                LastName = residentVM.LastName,
+                DoB = residentVM.DoB,
+                FacilityId = residentVM.FacilityId
             };
-            _context.Residents.Add(_resident);
-            await _context.SaveChangesAsync();
+            context.Residents.Add(resident);
+            await context.SaveChangesAsync();
         }
 
-        public async Task<List<Resident>> GetAllResidentAsync() => await _context.Residents.Include(x => x.Facility).Include(y => y.ProgressNotes).ToListAsync();
+        public async Task<List<Resident>> GetAllResidentAsync() => await context.Residents.ToListAsync();
 
-        public async Task<Resident> GetResidentByIdAsync(int id) => await _context.Residents.Include(x => x.Facility).Include(y => y.ProgressNotes).FirstOrDefaultAsync(f => f.Id == id);
+        public async Task<Resident> GetResidentByIdAsync(int id) => await context.Residents.FirstOrDefaultAsync(f => f.Id == id);
         
 
-        public async Task<Resident> UpdateResidentAsync(int id, ResidentVM resident)
+        public async Task<Resident> UpdateResidentAsync(int id, ResidentVM residentVM)
         {
-            var _resident = await _context.Residents.FirstOrDefaultAsync(f => f.Id == id);
-            if (_resident != null)
-            {
-                _resident.FirstName = resident.FirstName;
-                _resident.LastName = resident.LastName;
-                _resident.DoB = resident.DoB;
-                _resident.FacilityId = resident.FacilityId;
-                _context.Residents.Update(_resident);
-                _context.SaveChanges();
-            }
-            return _resident;
+            var resident = await context.Residents.FirstOrDefaultAsync(f => f.Id == id);
+            if (resident == null) throw new Exception($"Resident with ID {id} not found!");
+
+            resident.FirstName = residentVM.FirstName;
+            resident.LastName = residentVM.LastName;
+            resident.DoB = residentVM.DoB;
+            resident.FacilityId = residentVM.FacilityId;
+            context.Residents.Update(resident);
+            context.SaveChanges();
+            
+            return resident;
         }
 
-        public async Task<bool> DeleteResidentAsync(int id)
+        public async Task DeleteResidentAsync(int id)
         {
-            var _resident = await _context.Residents.FirstOrDefaultAsync(f => f.Id == id);
-            if (_resident != null)
-            {
-                _context.Residents.Remove(_resident);
-                _context.SaveChanges();
-                return true;
-            }
-            return false;
+            var resident = await context.Residents.FirstOrDefaultAsync(f => f.Id == id);
+            if (resident == null) throw new Exception($"Resident with ID {id} not found!");
+
+            context.Residents.Remove(resident);
+            context.SaveChanges();
         }
     }
 }

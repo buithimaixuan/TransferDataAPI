@@ -10,20 +10,22 @@
   </MultiItemStartupConfigurations>
   <MonoDevelop.Ide.ItemProperties.ServerA PreferredExecutionTarget="/Applications/Microsoft Edge.app" />
   <MonoDevelop.Ide.ItemProperties.ServerB PreferredExecutionTarget="/Applications/Microsoft Edge.app" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="ServerB/Data/Services/ResidentService.cs">
+    <Files>
+      <File FileName="ServerB/Controllers/ProgressNoteController.cs" Line="24" Column="49" />
+      <File FileName="ServerB/Data/Services/ProgressNoteService.cs" Line="25" Column="148" />
+      <File FileName="ServerB/Data/Services/ResidentService.cs" Line="16" Column="36" />
+      <File FileName="ServerB/Data/Services/FacilityService.cs" Line="66" Column="60" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="TransferData" expanded="True">
-            <Node name="ServerA" expanded="True" selected="True">
-              <Node name="Controllers" expanded="True" />
+          <Node name="TransferData" expanded="True" selected="True">
+            <Node name="ServerB">
               <Node name="Data" expanded="True">
                 <Node name="Models" expanded="True" />
                 <Node name="Services" expanded="True" />
               </Node>
-            </Node>
-            <Node name="ServerB">
-              <Node name="Controllers" expanded="True" />
             </Node>
           </Node>
         </State>

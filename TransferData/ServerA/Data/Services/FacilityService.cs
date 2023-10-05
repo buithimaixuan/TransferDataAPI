@@ -10,59 +10,56 @@ namespace ServerA.Data.Services
 {
     public class FacilityService
     {
-        private AppDbContext _context;
+        private AppDbContext context;
 
-        public FacilityService(AppDbContext context)
+        public FacilityService(AppDbContext contextParam)
         {
-            _context = context;
+            context = contextParam;
         }
 
-        public async Task AddFacilityAsync(FacilityVM facility)
+        public async Task AddFacilityAsync(FacilityVM facilityVM)
         {
-            var _facility = new Facility()
+            var facility = new Facility()
             {
-                Name = facility.Name,
-                Address = facility.Address
+                Name = facilityVM.Name,
+                Address = facilityVM.Address
             };
-            await _context.Facilities.AddAsync(_facility);
-            await _context.SaveChangesAsync();
+            await context.Facilities.AddAsync(facility);
+            await context.SaveChangesAsync();
         }
 
         public async Task<List<Facility>> GetAllFacilityAsync()
         {
-            var _listFacility = await _context.Facilities.Include(x => x.Residents).ToListAsync();
-            return _listFacility;
+            var facilities = await context.Facilities.ToListAsync();
+            return facilities;
         }
 
         public async Task<Facility> GetFacilityByIdAsync(int id)
         {
-            var _facility = await _context.Facilities.Include(x => x.Residents).FirstOrDefaultAsync(r => r.Id == id);
-            return _facility;
+            var facility = await context.Facilities.FirstOrDefaultAsync(r => r.Id == id);
+            return facility;
         }
 
-        public async Task<Facility> UpdateFacilityAsync(int id, FacilityVM facility)
+        public async Task<Facility> UpdateFacilityAsync(int id, FacilityVM facilityVM)
         {
-            var _facility = await _context.Facilities.FirstOrDefaultAsync(f => f.Id == id);
-            if (_facility != null)
-            {
-                _facility.Name = facility.Name;
-                _facility.Address = facility.Address;
-                _context.Facilities.Update(_facility);
-                _context.SaveChanges();
-            }
-            return _facility;
+            var facility = await context.Facilities.FirstOrDefaultAsync(f => f.Id == id);
+            if (facility == null) throw new Exception($"Facility with ID {id} not found!");
+
+            facility.Name = facilityVM.Name;
+            facility.Address = facilityVM.Address;
+            context.Facilities.Update(facility);
+            context.SaveChanges();
+            
+            return facility;
         }
 
-        public async Task<bool> DeleteFacilityAsync(int id)
+        public async Task DeleteFacilityAsync(int id)
         {
-            var _facility = await _context.Facilities.FirstOrDefaultAsync(f => f.Id == id);
-            if (_facility != null)
-            {
-                _context.Facilities.Remove(_facility);
-                _context.SaveChanges();
-                return true;
-            }
-            return false;
+            var facility = await context.Facilities.FirstOrDefaultAsync(f => f.Id == id);
+            if (facility == null) throw new Exception($"Facility with ID {id} not found!");
+
+            context.Facilities.Remove(facility);
+            context.SaveChanges();
         }
     }
 }
