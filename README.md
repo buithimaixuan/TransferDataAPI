@@ -1,24 +1,41 @@
 # Run Docker to host SQL Server
 
-`docker compose build`
-`docker compose up`
+```sh
+docker compose build
+```
+
+```sh
+docker compose up
+```
 
 # TransferData
 
 ## At ServerA:
 
-`dotnet build`
-`dotnet ef database update --connection "Data Source=localhost,1444;Initial Catalog=ServerA;Persist Security Info=True;User ID=sa;Password=123456Sa;"`
+```sh
+dotnet build
+```
+
+```sh
+dotnet ef database update --connection "Data Source=localhost,1444;Initial Catalog=ServerA;Persist Security Info=True;User ID=sa;Password=123456Sa;"
+```
 
 ## At ServerB:
 
-`dotnet build`
-`dotnet ef database update --connection "Data Source=localhost,1444;Initial Catalog=ServerB;Persist Security Info=True;User ID=sa;Password=123456Sa;"`
+```sh
+dotnet build
+```
 
-*Then run the solution*
+```sh
+dotnet ef database update --connection "Data Source=localhost,1444;Initial Catalog=ServerB;Persist Security Info=True;User ID=sa;Password=123456Sa;"
+```
+
+_Then run the solution_
 
 # WorkerService
 
 After run TransferData project successfully then cd into WorkerService and run:
 
-`node worker.js`
+```sh
+node worker.js
+```
