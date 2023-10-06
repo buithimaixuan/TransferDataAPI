@@ -23,7 +23,7 @@
     <None Remove="Data\Models\" />
     <None Remove="Data\Services\" />
     <None Remove="WorkerSyncData\" />
-    <None Remove="Data\Repository\" />
+    <None Remove="Data\Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -31,6 +31,6 @@
     <Folder Include="Data\Models\" />
     <Folder Include="Data\Services\" />
     <Folder Include="WorkerSyncData\" />
-    <Folder Include="Data\Repository\" />
+    <Folder Include="Data\Interfaces\" />
   </ItemGroup>
 </Project>

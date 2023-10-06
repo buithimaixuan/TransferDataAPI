@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ServerA.CustomExceptions;
-using ServerA.Data.Repository;
+using ServerA.Data.Interfaces;
 
 namespace ServerA.Data.Services
 {

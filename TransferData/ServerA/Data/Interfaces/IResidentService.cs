@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using ServerA.Data.Models;
 using ServerA.Data.ViewModels;
 
-namespace ServerA.Data.Repository
+namespace ServerA.Data.Interfaces
 {
     public interface IResidentService
     {

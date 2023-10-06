@@ -4,7 +4,7 @@ using ServerA.Data.Services;
 using ServerA.Data.ViewModels;
 using System;
 using System.Threading.Tasks;
-using ServerA.Data.Repository;
+using ServerA.Data.Interfaces;
 
 namespace ServerA.Controllers
 {
@@ -13,9 +13,9 @@ namespace ServerA.Controllers
     public class ResidentController : Controller
     {
         private readonly IResidentService _residentService;
-        public ResidentController(ResidentService residentService)
+        public ResidentController(IResidentService residentService)
         {
-            _residentService = residentService ?? throw new ArgumentNullException(nameof(residentService)); ;
+            _residentService = residentService ?? throw new ArgumentNullException(nameof(residentService));
         }
 
         [HttpGet("get-all-resident")]

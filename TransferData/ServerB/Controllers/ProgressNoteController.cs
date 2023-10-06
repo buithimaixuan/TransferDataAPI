@@ -3,7 +3,7 @@ using ServerB.Data.Services;
 using ServerB.Data.Models;
 using System;
 using System.Threading.Tasks;
-using ServerB.Data.Repository;
+using ServerB.Data.Interfaces;
 
 namespace ServerB.Controllers
 {
@@ -12,9 +12,9 @@ namespace ServerB.Controllers
     public class ProgressNoteController : Controller
     {
         private readonly IProgressNoteService _progressNoteService;
-        public ProgressNoteController(ProgressNoteService progressNoteService)
+        public ProgressNoteController(IProgressNoteService progressNoteService)
         {
-            _progressNoteService = progressNoteService ?? throw new ArgumentNullException(nameof(progressNoteService)); ;
+            _progressNoteService = progressNoteService ?? throw new ArgumentNullException(nameof(progressNoteService));
         }
 
         [HttpGet("sync-data-progressNote")]

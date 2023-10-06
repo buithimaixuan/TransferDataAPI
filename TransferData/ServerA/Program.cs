@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ServerA.Data;
 using ServerA.Data.Services;
+using ServerA.Data.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,9 +18,9 @@ builder.Services.AddDbContext<AppDbContext>(
 );
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddTransient<FacilityService>();
-builder.Services.AddTransient<ResidentService>();
-builder.Services.AddTransient<ProgressNoteService>();
+builder.Services.AddScoped<IFacilityService, FacilityService>();
+builder.Services.AddScoped<IResidentService, ResidentService>();
+builder.Services.AddScoped<IProgressNoteService, ProgressNoteService>();
 
 
 builder.Services.AddControllers().AddJsonOptions(x =>

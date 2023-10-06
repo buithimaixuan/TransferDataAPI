@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using ServerB.Data.Models;
 
-namespace ServerB.Data.Repository
+namespace ServerB.Data.Interfaces
 {
 	public interface IProgressNoteService
 	{

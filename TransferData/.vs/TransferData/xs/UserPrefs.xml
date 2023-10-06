@@ -10,11 +10,33 @@
   </MultiItemStartupConfigurations>
   <MonoDevelop.Ide.ItemProperties.ServerA PreferredExecutionTarget="/Applications/Microsoft Edge.app" />
   <MonoDevelop.Ide.ItemProperties.ServerB PreferredExecutionTarget="/Applications/Microsoft Edge.app" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="ServerB/Controllers/ResidentController.cs">
+    <Files>
+      <File FileName="ServerB/Program.cs" Line="22" Column="52" />
+      <File FileName="ServerB/Data/Services/FacilityService.cs" Line="11" Column="42" />
+      <File FileName="ServerB/Data/Interfaces/IFacilityService.cs" Line="9" Column="33" />
+      <File FileName="ServerB/Controllers/FacilityController.cs" Line="4" Column="31" />
+      <File FileName="ServerB/WorkerSyncData/Worker.cs" Line="25" Column="1" />
+      <File FileName="ServerA/Program.cs" Line="1" Column="1" />
+      <File FileName="ServerA/Controllers/FacilityController.cs" Line="1" Column="1" />
+      <File FileName="ServerA/Controllers/ProgressNoteController.cs" Line="1" Column="1" />
+      <File FileName="ServerA/Controllers/ResidentController.cs" Line="1" Column="1" />
+      <File FileName="ServerB/Controllers/ProgressNoteController.cs" Line="1" Column="1" />
+      <File FileName="ServerB/Controllers/ResidentController.cs" Line="21" Column="19" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="TransferData" expanded="True" selected="True" />
+          <Node name="TransferData" expanded="True">
+            <Node name="ServerA" expanded="True">
+              <Node name="Controllers" expanded="True" />
+            </Node>
+            <Node name="ServerB">
+              <Node name="Controllers" expanded="True">
+                <Node name="ResidentController.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
         </State>
       </Pad>
     </Pads>

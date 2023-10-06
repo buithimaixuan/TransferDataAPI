@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServerB.Data.Services;
 using ServerB.Data.Models;
-using ServerB.Data.Repository;
+using ServerB.Data.Interfaces;
 
 
 namespace ServerB.Controllers
@@ -11,7 +11,7 @@ namespace ServerB.Controllers
     public class FacilityController : Controller
     {
         private readonly IFacilityService _facilityService;
-        public FacilityController(FacilityService facilityService)
+        public FacilityController(IFacilityService facilityService)
         {
             _facilityService = facilityService ?? throw new ArgumentNullException(nameof(facilityService));
         }

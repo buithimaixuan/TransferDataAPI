@@ -3,7 +3,7 @@ using ServerB.Data.Services;
 using ServerB.Data.Models;
 using System;
 using System.Threading.Tasks;
-using ServerB.Data.Repository;
+using ServerB.Data.Interfaces;
 
 namespace ServerB.Controllers
 {
@@ -12,9 +12,9 @@ namespace ServerB.Controllers
     public class ResidentController : Controller
     {
         private readonly IResidentService _residentService;
-        public ResidentController(ResidentService residentService)
+        public ResidentController(IResidentService residentService)
         {
-            _residentService = residentService ?? throw new ArgumentNullException(nameof(residentService)); ;
+            _residentService = residentService ?? throw new ArgumentNullException(nameof(residentService));
         }
 
         [HttpGet("sync-data-resident")]

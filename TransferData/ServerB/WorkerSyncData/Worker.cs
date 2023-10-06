@@ -1,4 +1,5 @@
 ﻿using ServerB.Data.Services;
+using ServerB.Data.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ServerB.WorkerSyncData
@@ -18,9 +19,9 @@ namespace ServerB.WorkerSyncData
             {
                 using (var scope = _serviceProvider.CreateScope())
                 {
-                    var facilityService = scope.ServiceProvider.GetRequiredService<FacilityService>();
-                    var residentService = scope.ServiceProvider.GetRequiredService<ResidentService>();
-                    var progressNoteService = scope.ServiceProvider.GetRequiredService<ProgressNoteService>();
+                    var facilityService = scope.ServiceProvider.GetRequiredService<IFacilityService>();
+                    var residentService = scope.ServiceProvider.GetRequiredService<IResidentService>();
+                    var progressNoteService = scope.ServiceProvider.GetRequiredService<IProgressNoteService>();
 
                     await facilityService.SyncData();
                     await residentService.SyncData();
