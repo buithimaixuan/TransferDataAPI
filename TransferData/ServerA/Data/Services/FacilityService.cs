@@ -6,16 +6,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ServerA.CustomExceptions;
+using ServerA.Data.Repository;
 
 namespace ServerA.Data.Services
 {
-    public class FacilityService
+    public class FacilityService : IFacilityService
     {
-        private AppDbContext context;
+        private readonly AppDbContext _context;
 
         public FacilityService(AppDbContext contextParam)
         {
-            context = contextParam;
+            _context = contextParam;
         }
 
         public async Task AddFacilityAsync(FacilityVM facilityVM)
@@ -25,42 +26,42 @@ namespace ServerA.Data.Services
                 Name = facilityVM.Name,
                 Address = facilityVM.Address
             };
-            await context.Facilities.AddAsync(facility);
-            await context.SaveChangesAsync();
+            await _context.Facilities.AddAsync(facility);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Facility>> GetAllFacilityAsync()
         {
-            var facilities = await context.Facilities.ToListAsync();
+            var facilities = await _context.Facilities.ToListAsync();
             return facilities;
         }
 
         public async Task<Facility> GetFacilityByIdAsync(int id)
         {
-            var facility = await context.Facilities.FirstOrDefaultAsync(r => r.Id == id);
+            var facility = await _context.Facilities.FirstOrDefaultAsync(r => r.Id == id);
             return facility;
         }
 
         public async Task<Facility> UpdateFacilityAsync(int id, FacilityVM facilityVM)
         {
-            var facility = await context.Facilities.FirstOrDefaultAsync(f => f.Id == id);
+            var facility = await _context.Facilities.FirstOrDefaultAsync(f => f.Id == id);
             if (facility == null) throw new NotFoundRecordsException($"Facility with ID {id} not found!");
 
             facility.Name = facilityVM.Name;
             facility.Address = facilityVM.Address;
-            context.Facilities.Update(facility);
-            context.SaveChanges();
+            _context.Facilities.Update(facility);
+            _context.SaveChanges();
             
             return facility;
         }
 
         public async Task DeleteFacilityAsync(int id)
         {
-            var facility = await context.Facilities.FirstOrDefaultAsync(f => f.Id == id);
+            var facility = await _context.Facilities.FirstOrDefaultAsync(f => f.Id == id);
             if (facility == null) throw new NotFoundRecordsException($"Facility with ID {id} not found!");
 
-            context.Facilities.Remove(facility);
-            context.SaveChanges();
+            _context.Facilities.Remove(facility);
+            _context.SaveChanges();
         }
     }
 }

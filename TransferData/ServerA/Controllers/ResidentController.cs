@@ -4,6 +4,7 @@ using ServerA.Data.Services;
 using ServerA.Data.ViewModels;
 using System;
 using System.Threading.Tasks;
+using ServerA.Data.Repository;
 
 namespace ServerA.Controllers
 {
@@ -11,10 +12,10 @@ namespace ServerA.Controllers
     [ApiController]
     public class ResidentController : Controller
     {
-        private readonly ResidentService _residentService;
+        private readonly IResidentService _residentService;
         public ResidentController(ResidentService residentService)
         {
-            _residentService = residentService;
+            _residentService = residentService ?? throw new ArgumentNullException(nameof(residentService)); ;
         }
 
         [HttpGet("get-all-resident")]

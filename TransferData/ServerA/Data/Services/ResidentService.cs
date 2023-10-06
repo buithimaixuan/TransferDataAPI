@@ -6,16 +6,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ServerA.CustomExceptions;
+using ServerA.Data.Repository;
 
 namespace ServerA.Data.Services
 {
-    public class ResidentService
+    public class ResidentService : IResidentService
     {
-        private AppDbContext context;
+        private readonly AppDbContext _context;
 
         public ResidentService(AppDbContext contextParam)
         {
-            context = contextParam;
+            _context = contextParam;
         }
 
         public async Task AddResidentAsync(ResidentVM residentVM)
@@ -27,37 +28,37 @@ namespace ServerA.Data.Services
                 DoB = residentVM.DoB,
                 FacilityId = residentVM.FacilityId
             };
-            context.Residents.Add(resident);
-            await context.SaveChangesAsync();
+            _context.Residents.Add(resident);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Resident>> GetAllResidentAsync() => await context.Residents.ToListAsync();
+        public async Task<List<Resident>> GetAllResidentAsync() => await _context.Residents.ToListAsync();
 
-        public async Task<Resident> GetResidentByIdAsync(int id) => await context.Residents.FirstOrDefaultAsync(f => f.Id == id);
+        public async Task<Resident> GetResidentByIdAsync(int id) => await _context.Residents.FirstOrDefaultAsync(f => f.Id == id);
         
 
         public async Task<Resident> UpdateResidentAsync(int id, ResidentVM residentVM)
         {
-            var resident = await context.Residents.FirstOrDefaultAsync(f => f.Id == id);
+            var resident = await _context.Residents.FirstOrDefaultAsync(f => f.Id == id);
             if (resident == null) throw new NotFoundRecordsException($"Resident with ID {id} not found!");
 
             resident.FirstName = residentVM.FirstName;
             resident.LastName = residentVM.LastName;
             resident.DoB = residentVM.DoB;
             resident.FacilityId = residentVM.FacilityId;
-            context.Residents.Update(resident);
-            context.SaveChanges();
+            _context.Residents.Update(resident);
+            _context.SaveChanges();
             
             return resident;
         }
 
         public async Task DeleteResidentAsync(int id)
         {
-            var resident = await context.Residents.FirstOrDefaultAsync(f => f.Id == id);
+            var resident = await _context.Residents.FirstOrDefaultAsync(f => f.Id == id);
             if (resident == null) throw new NotFoundRecordsException($"Resident with ID {id} not found!");
 
-            context.Residents.Remove(resident);
-            context.SaveChanges();
+            _context.Residents.Remove(resident);
+            _context.SaveChanges();
         }
     }
 }

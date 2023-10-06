@@ -4,16 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ServerB.Data.Repository;
 
 namespace ServerB.Data.Services
 {
-	public class ProgressNoteService
+	public class ProgressNoteService : IProgressNoteService
 	{
-        private AppDbContext context;
+        private readonly AppDbContext _context;
 
         public ProgressNoteService(AppDbContext contextParam)
         {
-            context = contextParam;
+            _context = contextParam;
         }
 
         //----
@@ -29,7 +30,7 @@ namespace ServerB.Data.Services
 
         public async Task<List<ProgressNote>> GetDataProgressNotesServerB()
         {
-            var progressNotes = await context.ProgressNotes.ToListAsync();
+            var progressNotes = await _context.ProgressNotes.ToListAsync();
             return progressNotes;
         }
 
@@ -65,20 +66,20 @@ namespace ServerB.Data.Services
 
             if (addProgressNotes.Any())
             {
-                context.ProgressNotes.AddRange(addProgressNotes);
+                _context.ProgressNotes.AddRange(addProgressNotes);
             }
 
             if (updateProgressNotes.Any())
             {
-                context.ProgressNotes.UpdateRange(updateProgressNotes);
+                _context.ProgressNotes.UpdateRange(updateProgressNotes);
             }
 
             if (deleteProgressNotes.Any())
             {
-                context.ProgressNotes.RemoveRange(deleteProgressNotes);
+                _context.ProgressNotes.RemoveRange(deleteProgressNotes);
             }
 
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         //----

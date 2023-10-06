@@ -4,6 +4,7 @@ using ServerA.Data.Services;
 using ServerA.Data.ViewModels;
 using System;
 using System.Threading.Tasks;
+using ServerA.Data.Repository;
 
 namespace ServerA.Controllers
 {
@@ -11,10 +12,10 @@ namespace ServerA.Controllers
     [ApiController]
     public class ProgressNoteController : Controller
     {
-        private readonly ProgressNoteService _progressNoteService;
+        private readonly IProgressNoteService _progressNoteService;
         public ProgressNoteController(ProgressNoteService progressNoteService)
         {
-            _progressNoteService = progressNoteService;
+            _progressNoteService = progressNoteService ?? throw new ArgumentNullException(nameof(progressNoteService)); ;
         }
 
         [HttpGet("get-all-progressNote")]

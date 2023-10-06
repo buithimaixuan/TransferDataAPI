@@ -4,16 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ServerB.Data.Repository;
 
 namespace ServerB.Data.Services
 {
-    public class ResidentService
+    public class ResidentService : IResidentService
     {
-        private AppDbContext context;
+        private readonly AppDbContext _context;
 
         public ResidentService(AppDbContext contextParam)
         {
-            context = contextParam;
+            _context = contextParam;
         }
 
         //----
@@ -29,7 +30,7 @@ namespace ServerB.Data.Services
 
         public async Task<List<Resident>> GetDataResidentsServerB()
         {
-            var residents = await context.Residents.ToListAsync();
+            var residents = await _context.Residents.ToListAsync();
             return residents;
         }
 
@@ -65,20 +66,20 @@ namespace ServerB.Data.Services
 
             if (addResidents.Any())
             {
-                context.Residents.AddRange(addResidents);
+                _context.Residents.AddRange(addResidents);
             }
 
             if (updateResidents.Any())
             {
-                context.Residents.UpdateRange(updateResidents);
+                _context.Residents.UpdateRange(updateResidents);
             }
 
             if (deleteResidents.Any())
             {
-                context.Residents.RemoveRange(deleteResidents);
+                _context.Residents.RemoveRange(deleteResidents);
             }
 
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         //----

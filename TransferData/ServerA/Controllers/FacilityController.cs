@@ -2,6 +2,7 @@
 using ServerA.Data.Services;
 using ServerA.Data.ViewModels;
 using ServerA.CustomExceptions;
+using ServerA.Data.Repository;
 
 namespace ServerA.Controllers
 {
@@ -9,10 +10,10 @@ namespace ServerA.Controllers
     [ApiController]
     public class FacilityController : Controller
     {
-        private readonly FacilityService _facilityService;
+        private readonly IFacilityService _facilityService;
         public FacilityController(FacilityService facilityService)
         {
-            _facilityService = facilityService;
+            _facilityService = facilityService ?? throw new ArgumentNullException(nameof(facilityService)); ;
         }
 
         [HttpPost("add-facility")]

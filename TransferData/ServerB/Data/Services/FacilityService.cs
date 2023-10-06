@@ -3,17 +3,18 @@ using ServerB.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks; // Add this namespace for asynchronous operations
+using System.Threading.Tasks;
+using ServerB.Data.Repository;
 
 namespace ServerB.Data.Services
 {
-    public class FacilityService
+    public class FacilityService : IFacilityService
     {
-        private AppDbContext context;
+        private readonly AppDbContext _context;
 
         public FacilityService(AppDbContext contextParam)
         {
-            context = contextParam;
+            _context = contextParam;
         }
 
         //----
@@ -29,7 +30,7 @@ namespace ServerB.Data.Services
 
         public async Task<List<Facility>> GetDataFacilitiesServerB()
         {
-            var facilities = await context.Facilities.ToListAsync();
+            var facilities = await _context.Facilities.ToListAsync();
             return facilities;
         }
 
@@ -65,20 +66,20 @@ namespace ServerB.Data.Services
 
             if (addFacilities.Any())
             {
-                context.Facilities.AddRange(addFacilities);
+                _context.Facilities.AddRange(addFacilities);
             }
 
             if (updateFacilities.Any())
             {
-                context.Facilities.UpdateRange(updateFacilities);
+                _context.Facilities.UpdateRange(updateFacilities);
             }
 
             if (deleteFacilities.Any())
             {
-                context.Facilities.RemoveRange(deleteFacilities);
+                _context.Facilities.RemoveRange(deleteFacilities);
             }
 
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         //----

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServerB.Data.Services;
 using ServerB.Data.Models;
+using ServerB.Data.Repository;
 
 
 namespace ServerB.Controllers
@@ -9,10 +10,10 @@ namespace ServerB.Controllers
     [ApiController]
     public class FacilityController : Controller
     {
-        private readonly FacilityService _facilityService;
+        private readonly IFacilityService _facilityService;
         public FacilityController(FacilityService facilityService)
         {
-            _facilityService = facilityService;
+            _facilityService = facilityService ?? throw new ArgumentNullException(nameof(facilityService));
         }
 
         [HttpGet("sync-data-facility")]

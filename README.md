@@ -1,3 +1,7 @@
+# Requirement
+
+![abec9232dd0f8635728ea3c491e261993f6abdd846778f54930736711bddc49a](https://github.com/lenhatquynh/TransferDataAPI/assets/84279345/06c0ce41-88cc-476f-b34c-fb50e101ef10)
+
 # Run Docker to host SQL Server
 
 ```sh
@@ -31,11 +35,3 @@ dotnet ef database update --connection "Data Source=localhost,1444;Initial Catal
 ```
 
 _Then run the solution_
-
-# WorkerService
-
-After run TransferData project successfully then cd into WorkerService and run:
-
-```sh
-node worker.js
-```
