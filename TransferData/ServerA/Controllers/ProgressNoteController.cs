@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ServerA.CustomExceptions;
 using ServerA.Data.Services;
 using ServerA.Data.ViewModels;
 using System;
@@ -70,9 +71,14 @@ namespace ServerA.Controllers
                 var updatedProgressNote = await _progressNoteService.UpdateProgressNoteAsync(id, progressNote);
                 return Ok(updatedProgressNote);
             }
+            catch (NotFoundRecordsException e)
+            {
+                Console.WriteLine(e.Message);
+                return NotFound();
+            }
             catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest("An error occurred while updating the progressNote: " + ex.Message);
             }
         }
 
@@ -84,9 +90,14 @@ namespace ServerA.Controllers
                 await _progressNoteService.DeleteProgressNoteAsync(id);
                 return Ok();
             }
+            catch (NotFoundRecordsException e)
+            {
+                Console.WriteLine(e.Message);
+                return NotFound();
+            }
             catch (Exception ex)
             {
-                return NotFound(); 
+                return BadRequest("An error occurred while deleting the progressNote: " + ex.Message);
             }
         }
     }

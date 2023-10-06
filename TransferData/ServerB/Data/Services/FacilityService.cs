@@ -49,6 +49,7 @@ namespace ServerB.Data.Services
                 if (isExisted)
                 {
                     updateFacilities.Add(facility);
+                    continue;
                 }
                 addFacilities.Add(facility);
             }
@@ -61,18 +62,22 @@ namespace ServerB.Data.Services
                     deleteFacilities.Add(facility);
                 }
             }
-            if (addFacilities.Count > 0)
+
+            if (addFacilities.Any())
             {
                 context.Facilities.AddRange(addFacilities);
             }
-            if (updateFacilities.Count > 0)
+
+            if (updateFacilities.Any())
             {
                 context.Facilities.UpdateRange(updateFacilities);
             }
-            if (deleteFacilities.Count > 0)
+
+            if (deleteFacilities.Any())
             {
                 context.Facilities.RemoveRange(deleteFacilities);
             }
+
             await context.SaveChangesAsync();
         }
 

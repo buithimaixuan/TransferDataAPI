@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServerA.Data.Services;
 using ServerA.Data.ViewModels;
+using ServerA.CustomExceptions;
 
 namespace ServerA.Controllers
 {
@@ -50,7 +51,7 @@ namespace ServerA.Controllers
                 var facility = await _facilityService.GetFacilityByIdAsync(id);
                 if (facility == null)
                 {
-                    return NotFound(); // Return a 404 response if the resident is not found.
+                    return NotFound(); 
                 }
                 return Ok(facility);
             }
@@ -68,9 +69,14 @@ namespace ServerA.Controllers
                 var updatedFacility = await _facilityService.UpdateFacilityAsync(id, facility);
                 return Ok(updatedFacility);
             }
+            catch (NotFoundRecordsException e)
+            {
+                Console.WriteLine(e.Message);
+                return NotFound();
+            }
             catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest("An error occurred while updating the facility: " + ex.Message);
             }
         }
 
@@ -82,9 +88,14 @@ namespace ServerA.Controllers
                 await _facilityService.DeleteFacilityAsync(id);
                 return Ok();
             }
+            catch (NotFoundRecordsException e)
+            {
+                Console.WriteLine(e.Message);
+                return NotFound();
+            }
             catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest("An error occurred while deleting the facility: " + ex.Message);
             }
         }
 

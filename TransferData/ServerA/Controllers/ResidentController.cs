@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ServerA.CustomExceptions;
 using ServerA.Data.Services;
 using ServerA.Data.ViewModels;
 using System;
@@ -70,9 +71,14 @@ namespace ServerA.Controllers
                 var updatedResident = await _residentService.UpdateResidentAsync(id, resident);
                 return Ok(updatedResident);
             }
+            catch (NotFoundRecordsException e)
+            {
+                Console.WriteLine(e.Message);
+                return NotFound();
+            }
             catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest("An error occurred while updating the resident: " + ex.Message);
             }
         }
 
@@ -84,9 +90,14 @@ namespace ServerA.Controllers
                 await _residentService.DeleteResidentAsync(id);
                 return Ok();
             }
+            catch (NotFoundRecordsException e)
+            {
+                Console.WriteLine(e.Message);
+                return NotFound();
+            }
             catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest("An error occurred while deleting the resident: " + ex.Message);
             }
         }
     }

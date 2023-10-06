@@ -49,6 +49,7 @@ namespace ServerB.Data.Services
                 if (isExisted)
                 {
                     updateProgressNotes.Add(progressNote);
+                    continue;
                 }
                 addProgressNotes.Add(progressNote);
             }
@@ -61,18 +62,22 @@ namespace ServerB.Data.Services
                     deleteProgressNotes.Add(progressNote);
                 }
             }
-            if (addProgressNotes.Count > 0)
+
+            if (addProgressNotes.Any())
             {
                 context.ProgressNotes.AddRange(addProgressNotes);
             }
-            if (updateProgressNotes.Count > 0)
+
+            if (updateProgressNotes.Any())
             {
                 context.ProgressNotes.UpdateRange(updateProgressNotes);
             }
-            if (deleteProgressNotes.Count > 0)
+
+            if (deleteProgressNotes.Any())
             {
                 context.ProgressNotes.RemoveRange(deleteProgressNotes);
             }
+
             await context.SaveChangesAsync();
         }
 

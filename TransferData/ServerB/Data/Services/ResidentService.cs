@@ -49,6 +49,7 @@ namespace ServerB.Data.Services
                 if (isExisted)
                 {
                     updateResidents.Add(resident);
+                    continue;
                 }
                 addResidents.Add(resident);
             }
@@ -61,18 +62,22 @@ namespace ServerB.Data.Services
                     deleteResidents.Add(resident);
                 }
             }
-            if (addResidents.Count > 0)
+
+            if (addResidents.Any())
             {
                 context.Residents.AddRange(addResidents);
             }
-            if (updateResidents.Count > 0)
+
+            if (updateResidents.Any())
             {
                 context.Residents.UpdateRange(updateResidents);
             }
-            if (deleteResidents.Count > 0)
+
+            if (deleteResidents.Any())
             {
                 context.Residents.RemoveRange(deleteResidents);
             }
+
             await context.SaveChangesAsync();
         }
 

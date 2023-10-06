@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ServerB.Data;
 using ServerB.Data.Services;
+using ServerB.WorkerSyncData;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,8 @@ builder.Services.AddTransient<ProgressNoteService>();
 
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+builder.Services.AddHostedService<Worker>();
 
 builder.Services.AddSwaggerGen();
 var app = builder.Build();

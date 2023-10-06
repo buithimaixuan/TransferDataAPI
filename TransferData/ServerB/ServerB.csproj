@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ServerGarbageCollection>true</ServerGarbageCollection>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,11 +22,13 @@
     <None Remove="Data\" />
     <None Remove="Data\Models\" />
     <None Remove="Data\Services\" />
+    <None Remove="WorkerSyncData\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Data\" />
     <Folder Include="Data\Models\" />
     <Folder Include="Data\Services\" />
+    <Folder Include="WorkerSyncData\" />
   </ItemGroup>
 </Project>

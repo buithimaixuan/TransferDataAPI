@@ -4,7 +4,8 @@ using ServerA.Data.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks; // Add this namespace for asynchronous operations
+using System.Threading.Tasks;
+using ServerA.CustomExceptions;
 
 namespace ServerA.Data.Services
 {
@@ -43,7 +44,7 @@ namespace ServerA.Data.Services
         public async Task<Facility> UpdateFacilityAsync(int id, FacilityVM facilityVM)
         {
             var facility = await context.Facilities.FirstOrDefaultAsync(f => f.Id == id);
-            if (facility == null) throw new Exception($"Facility with ID {id} not found!");
+            if (facility == null) throw new NotFoundRecordsException($"Facility with ID {id} not found!");
 
             facility.Name = facilityVM.Name;
             facility.Address = facilityVM.Address;
@@ -56,7 +57,7 @@ namespace ServerA.Data.Services
         public async Task DeleteFacilityAsync(int id)
         {
             var facility = await context.Facilities.FirstOrDefaultAsync(f => f.Id == id);
-            if (facility == null) throw new Exception($"Facility with ID {id} not found!");
+            if (facility == null) throw new NotFoundRecordsException($"Facility with ID {id} not found!");
 
             context.Facilities.Remove(facility);
             context.SaveChanges();

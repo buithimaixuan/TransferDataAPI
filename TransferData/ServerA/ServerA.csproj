@@ -22,6 +22,7 @@
     <None Remove="Data\Models\" />
     <None Remove="Data\Services\" />
     <None Remove="Data\ViewModels\" />
+    <None Remove="CustomExceptions\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -29,5 +30,6 @@
     <Folder Include="Data\Models\" />
     <Folder Include="Data\Services\" />
     <Folder Include="Data\ViewModels\" />
+    <Folder Include="CustomExceptions\" />
   </ItemGroup>
 </Project>

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ServerA.CustomExceptions;
 
 namespace ServerA.Data.Services
 {
@@ -38,7 +39,7 @@ namespace ServerA.Data.Services
         public async Task<Resident> UpdateResidentAsync(int id, ResidentVM residentVM)
         {
             var resident = await context.Residents.FirstOrDefaultAsync(f => f.Id == id);
-            if (resident == null) throw new Exception($"Resident with ID {id} not found!");
+            if (resident == null) throw new NotFoundRecordsException($"Resident with ID {id} not found!");
 
             resident.FirstName = residentVM.FirstName;
             resident.LastName = residentVM.LastName;
@@ -53,7 +54,7 @@ namespace ServerA.Data.Services
         public async Task DeleteResidentAsync(int id)
         {
             var resident = await context.Residents.FirstOrDefaultAsync(f => f.Id == id);
-            if (resident == null) throw new Exception($"Resident with ID {id} not found!");
+            if (resident == null) throw new NotFoundRecordsException($"Resident with ID {id} not found!");
 
             context.Residents.Remove(resident);
             context.SaveChanges();

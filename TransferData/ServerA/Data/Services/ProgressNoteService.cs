@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ServerA.CustomExceptions;
 
 namespace ServerA.Data.Services
 {
@@ -37,7 +38,7 @@ namespace ServerA.Data.Services
         public async Task<ProgressNote> UpdateProgressNoteAsync(int id, ProgressNoteVM progressNoteVM)
         {
             var progressNote = await context.ProgressNotes.FirstOrDefaultAsync(p => p.Id == id);
-            if (progressNote == null) throw new Exception($"ProgressNote with ID {id} not found!");
+            if (progressNote == null) throw new NotFoundRecordsException($"ProgressNote with ID {id} not found!");
 
             progressNote.Content = progressNoteVM.Content;
             progressNote.Type = progressNoteVM.Type;
@@ -52,7 +53,7 @@ namespace ServerA.Data.Services
         public async Task DeleteProgressNoteAsync(int id)
         {
             var progressNote = await context.ProgressNotes.FirstOrDefaultAsync(f => f.Id == id);
-            if (progressNote == null) throw new Exception($"ProgressNote with ID {id} not found!");
+            if (progressNote == null) throw new NotFoundRecordsException($"ProgressNote with ID {id} not found!");
 
             context.ProgressNotes.Remove(progressNote);
             context.SaveChanges();
