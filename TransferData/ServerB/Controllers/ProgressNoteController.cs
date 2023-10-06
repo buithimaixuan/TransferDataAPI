@@ -22,7 +22,8 @@ namespace ServerB.Controllers
             try
             {
                 await _progressNoteService.SyncData();
-                return Ok();
+                var progressNotes = await _progressNoteService.GetDataProgressNotesServerB();
+                return Ok(progressNotes);
             }
             catch (Exception ex)
             {

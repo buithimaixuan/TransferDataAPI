@@ -21,7 +21,8 @@ namespace ServerB.Controllers
             try
             {
                 await _facilityService.SyncData();
-                return Ok();
+                var facilities = await _facilityService.GetDataFacilitiesServerB();
+                return Ok(facilities);
             }
             catch (Exception ex)
             {

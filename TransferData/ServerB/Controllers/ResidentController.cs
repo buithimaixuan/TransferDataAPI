@@ -22,7 +22,8 @@ namespace ServerB.Controllers
             try
             {
                 await _residentService.SyncData();
-                return Ok();
+                var residents = await _residentService.GetDataResidentsServerB();
+                return Ok(residents);
             }
             catch (Exception ex)
             {
