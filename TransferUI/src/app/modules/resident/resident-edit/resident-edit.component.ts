@@ -7,7 +7,6 @@ import { Facility, Resident, ResidentDTO } from 'src/app/core/models';
 import { FacilityService, ResidentService } from 'src/app/core/services';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -64,17 +63,12 @@ export class ResidentEditComponent implements OnInit, OnDestroy {
       });
   }
 
-  onDateChange(event: MatDatepickerInputEvent<Date>) {
-    const datePipe = new DatePipe('en-US');
-    this.resident.doB = datePipe.transform(event.value, 'yyyy-MM-dd');
-  }
-
-  submitForm(angForm: NgForm): void {
+  submitForm(angForm: NgForm, selectedFacilityId: number): void {
     const residentDTO: ResidentDTO = {
       firstName: this.resident.firstName,
       lastName: this.resident.lastName,
       doB: this.resident.doB,
-      facilityId: this.selectedFacilityId,
+      facilityId: selectedFacilityId,
     };
 
     if (!angForm.invalid) {

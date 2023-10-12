@@ -21,8 +21,11 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {
   EntityListComponent,
+  FacilityFormComponent,
   FooterComponent,
   HeaderComponent,
+  ProgressNoteFormComponent,
+  ResidentFormComponent,
 } from './shared/components';
 import {
   FacilityListComponent,
@@ -56,6 +59,9 @@ import { CustomDatePipe } from './shared/pipes';
     ProgressNoteEditComponent,
     ProgressNoteCreateComponent,
     EntityListComponent,
+    FacilityFormComponent,
+    ResidentFormComponent,
+    ProgressNoteFormComponent,
   ],
   imports: [
     BrowserModule,

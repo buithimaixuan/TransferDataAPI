@@ -62,20 +62,12 @@ export class ProgressNoteEditComponent implements OnInit, OnDestroy {
       });
   }
 
-  onDateChange(event: MatDatepickerInputEvent<Date>) {
-    const datePipe = new DatePipe('en-US');
-    this.progressNote.createdDate = datePipe.transform(
-      event.value,
-      'yyyy-MM-dd'
-    );
-  }
-
-  submitForm(angForm: NgForm): void {
+  submitForm(angForm: NgForm, selectedResidentId: number): void {
     const progressNoteDTO: ProgressNoteDTO = {
       content: this.progressNote.content,
       type: this.progressNote.type,
       createdDate: this.progressNote.createdDate,
-      residentId: this.selectedResidentId,
+      residentId: selectedResidentId,
     };
 
     if (!angForm.invalid) {

@@ -1,0 +1,52 @@
+<div class="flex flex-col justify-center items-center">
+  <mat-progress-bar mode="determinate" [value]="submitProgress"></mat-progress-bar>
+
+  <div class="w-[60%] relative top-[60px] bg-green-100 p-7 rounded-xl">
+    <p class="font-medium text-xl w-full text-center">{{ title }}</p>
+    <form #angForm="ngForm" (ngSubmit)="submitForm(angForm, selectedFacilityId)">
+
+      <mat-form-field class="w-full">
+        <mat-label>First name</mat-label>
+        <input matInput type="text" name="first_name" [(ngModel)]="resident.firstName" #first_name="ngModel" required />
+        <mat-error *ngIf="first_name.invalid && (first_name.dirty || first_name.touched) ">
+          First name is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-full">
+        <mat-label>Last name</mat-label>
+        <input matInput type="text" name="last_name" [(ngModel)]="resident.lastName" #last_name="ngModel" required />
+        <mat-error *ngIf="last_name.invalid && (last_name.dirty || last_name.touched) ">
+          Last name is required
+        </mat-error>
+      </mat-form-field>
+
+      <div class="flex justify-between">
+        <mat-form-field class="w-[45%]">
+          <mat-label>Choose a DOB</mat-label>
+          <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" [(ngModel)]="resident.doB"
+            #dob="ngModel" (dateChange)="onDateChange($event)" [ngModelOptions]="{standalone: true}" required>
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-error *ngIf="dob.invalid && (dob.dirty || dob.touched) ">
+            DOB is required (MM/DD/YYYY)
+          </mat-error>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="w-[45%]">
+          <mat-label>Select a facility</mat-label>
+          <mat-select [(value)]="selectedFacilityId">
+            <mat-option *ngFor="let facility of facilities" [value]="facility.id">{{facility.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="mt-4 text-center">
+        <button mat-raised-button color="primary" type="submit" [disabled]="angForm.invalid || dob.invalid">
+          {{ submitButtonLabel }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
