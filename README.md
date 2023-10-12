@@ -35,3 +35,9 @@ dotnet ef database update --connection "Data Source=localhost,1444;Initial Catal
 ```
 
 _Then run the solution_
+
+# TransferUI
+
+```sh
+npm start
+```
