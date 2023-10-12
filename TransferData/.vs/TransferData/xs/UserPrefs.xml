@@ -1,33 +1,7 @@
 ﻿<Properties StartupConfiguration="Multiple Projects">
-  <MonoDevelop.Ide.ItemProperties.ServerA PreferredExecutionTarget="/Applications/Microsoft Edge.app" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ServerB/WorkerSyncData/Worker.cs">
-    <Files>
-      <File FileName="ServerB/Program.cs" Line="29" Column="39" />
-      <File FileName="ServerB/WorkerSyncData/Worker.cs" Line="13" Column="43" />
-    </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="TransferData" expanded="True">
-            <Node name="ServerA" expanded="True">
-              <Node name="Controllers" expanded="True" />
-            </Node>
-            <Node name="ServerB" expanded="True">
-              <Node name="Controllers" expanded="True" />
-              <Node name="WorkerSyncData" expanded="True">
-                <Node name="Worker.cs" selected="True" />
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
-  </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.ServerB PreferredExecutionTarget="/Applications/Microsoft Edge.app" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.ServerA PreferredExecutionTarget="/Applications/Microsoft Edge.app" />
   <MultiItemStartupConfigurations>
     <MultiItemSolutionRunConfiguration Id="Multiple Projects" Name="Multiple Projects">
       <Items>
@@ -36,5 +10,25 @@
       </Items>
     </MultiItemSolutionRunConfiguration>
   </MultiItemStartupConfigurations>
-  <MonoDevelop.Ide.ItemProperties.ServerB PreferredExecutionTarget="/Applications/Microsoft Edge.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="ServerA/Properties/launchSettings.json">
+    <Files>
+      <File FileName="ServerA/Properties/launchSettings.json" Line="31" Column="2" />
+      <File FileName="ServerA/Program.cs" Line="58" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="TransferData" selected="True">
+            <Node name="ServerA" expanded="True">
+              <Node name="Properties" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
 </Properties>
