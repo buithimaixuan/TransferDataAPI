@@ -1,28 +1,10 @@
 ﻿<Properties StartupConfiguration="Multiple Projects">
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MultiItemStartupConfigurations>
-    <MultiItemSolutionRunConfiguration Id="Multiple Projects" Name="Multiple Projects">
-      <Items>
-        <StartupItem ItemId="{A45657D3-04FB-4199-B989-81B54D509287}" ItemName="ServerA" ConfigurationId="Default" />
-        <StartupItem ItemId="{F832A5A0-1FD5-44EA-9662-AF4DAE60A58B}" ItemName="ServerB" ConfigurationId="Default" />
-      </Items>
-    </MultiItemSolutionRunConfiguration>
-  </MultiItemStartupConfigurations>
   <MonoDevelop.Ide.ItemProperties.ServerA PreferredExecutionTarget="/Applications/Microsoft Edge.app" />
-  <MonoDevelop.Ide.ItemProperties.ServerB PreferredExecutionTarget="/Applications/Microsoft Edge.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ServerB/Controllers/ResidentController.cs">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ServerB/WorkerSyncData/Worker.cs">
     <Files>
-      <File FileName="ServerB/Program.cs" Line="22" Column="52" />
-      <File FileName="ServerB/Data/Services/FacilityService.cs" Line="11" Column="42" />
-      <File FileName="ServerB/Data/Interfaces/IFacilityService.cs" Line="9" Column="33" />
-      <File FileName="ServerB/Controllers/FacilityController.cs" Line="4" Column="31" />
-      <File FileName="ServerB/WorkerSyncData/Worker.cs" Line="25" Column="1" />
-      <File FileName="ServerA/Program.cs" Line="1" Column="1" />
-      <File FileName="ServerA/Controllers/FacilityController.cs" Line="1" Column="1" />
-      <File FileName="ServerA/Controllers/ProgressNoteController.cs" Line="1" Column="1" />
-      <File FileName="ServerA/Controllers/ResidentController.cs" Line="1" Column="1" />
-      <File FileName="ServerB/Controllers/ProgressNoteController.cs" Line="1" Column="1" />
-      <File FileName="ServerB/Controllers/ResidentController.cs" Line="21" Column="19" />
+      <File FileName="ServerB/Program.cs" Line="29" Column="39" />
+      <File FileName="ServerB/WorkerSyncData/Worker.cs" Line="13" Column="43" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -31,9 +13,10 @@
             <Node name="ServerA" expanded="True">
               <Node name="Controllers" expanded="True" />
             </Node>
-            <Node name="ServerB">
-              <Node name="Controllers" expanded="True">
-                <Node name="ResidentController.cs" selected="True" />
+            <Node name="ServerB" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="WorkerSyncData" expanded="True">
+                <Node name="Worker.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -45,4 +28,13 @@
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations>
+    <MultiItemSolutionRunConfiguration Id="Multiple Projects" Name="Multiple Projects">
+      <Items>
+        <StartupItem ItemId="{A45657D3-04FB-4199-B989-81B54D509287}" ItemName="ServerA" ConfigurationId="Default" />
+        <StartupItem ItemId="{F832A5A0-1FD5-44EA-9662-AF4DAE60A58B}" ItemName="ServerB" ConfigurationId="Default" />
+      </Items>
+    </MultiItemSolutionRunConfiguration>
+  </MultiItemStartupConfigurations>
+  <MonoDevelop.Ide.ItemProperties.ServerB PreferredExecutionTarget="/Applications/Microsoft Edge.app" />
 </Properties>

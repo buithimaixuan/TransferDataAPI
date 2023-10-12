@@ -1,0 +1,50 @@
+<div class="flex flex-col justify-center items-center">
+  <mat-progress-bar mode="determinate" [value]="deleteProgress"></mat-progress-bar>
+
+  <div class="w-[90%] relative top-5 ">
+    <div class=" flex justify-between mb-2">
+      <p class="font-medium text-xl">{{ entityName }} information:</p>
+      <span matRipple [matRippleCentered]="true"
+        class="p-2 rounded-[50%] flex justify-center bg-slate-300 cursor-pointer">
+        <a class=" flex justify-center items-center" [routerLink]="entityCreateRoute">
+          <mat-icon matTooltip="Create item" aria-hidden="false" aria-label="Create item" fontIcon="add"></mat-icon>
+        </a>
+      </span>
+    </div>
+    <mat-table [dataSource]="entities"
+      class="mat-elevation-z8 max-h-[570px] overflow-auto rounded-md mat-table-container">
+      <!-- Define the table columns based on the entity type -->
+      <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+        <mat-header-cell *matHeaderCellDef> {{ column | titlecase }} </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <ng-container *ngIf="column === 'dob' || column === 'createdDate'; else defaultCell">{{ element.dob |
+            customDate }}</ng-container>
+          <ng-container *ngIf="column === 'facility'; else defaultCell">{{ element.facility && element.facility.name
+            }}</ng-container>
+          <ng-container *ngIf="column === 'resident'; else defaultCell">{{ element.resident &&
+            (element.resident.firstName +
+            element.resident.lastName)
+            }}</ng-container>
+          <ng-container *ngIf="column === 'edit'; else defaultCell">
+            <span matRipple [matRippleCentered]="true" class="p-2 rounded-[50%]">
+              <a title="{{ entityName | titlecase }} edit" class="flex justify-center items-center"
+                [routerLink]="['/' + entityEditRoute, element.id]">
+                <mat-icon matTooltip="Edit item" aria-hidden="false" aria-label="Edit item" fontIcon="edit"></mat-icon>
+              </a>
+            </span>
+          </ng-container>
+          <ng-container *ngIf="column === 'delete'; else defaultCell">
+            <span matRipple [matRippleCentered]="true" class="p-2 rounded-[50%] flex justify-center">
+              <mat-icon matTooltip="Delete item" aria-hidden="false" aria-label="Delete item" fontIcon="delete"
+                (click)="deleteEntity(element.id)"></mat-icon>
+            </span>
+          </ng-container>
+          <ng-template #defaultCell>{{ element[column] }}</ng-template>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+  </div>
+</div>

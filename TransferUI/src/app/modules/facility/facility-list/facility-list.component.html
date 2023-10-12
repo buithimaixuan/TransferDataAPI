@@ -1,0 +1,62 @@
+<div class="flex flex-col justify-center items-center">
+  <mat-progress-bar mode="determinate" [value]="deleteProgress"></mat-progress-bar>
+
+  <div class="w-[90%] relative top-5 ">
+    <div class=" flex justify-between mb-2">
+      <p class="font-medium text-xl">Facilities information:</p>
+      <span matRipple [matRippleCentered]="true"
+        class="p-2 rounded-[50%] flex justify-center bg-slate-300 cursor-pointer">
+        <a class=" flex justify-center items-center" routerLink="/facility-create">
+          <mat-icon matTooltip="Create item" aria-hidden="false" aria-label="Create item" fontIcon="add"></mat-icon>
+        </a>
+      </span>
+    </div>
+    <mat-table [dataSource]="facilities"
+      class="mat-elevation-z8 max-h-[570px] overflow-auto rounded-md mat-table-container">
+      <!-- Id Column -->
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+      </ng-container>
+
+      <!-- Address Column -->
+      <ng-container matColumnDef="address">
+        <mat-header-cell *matHeaderCellDef> Address </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.address}} </mat-cell>
+      </ng-container>
+
+      <!-- Edit Column -->
+      <ng-container matColumnDef="edit">
+        <mat-header-cell *matHeaderCellDef> Edit </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span matRipple [matRippleCentered]="true" class="p-2 rounded-[50%]">
+            <a title="Facility edit" class=" flex justify-center items-center"
+              [routerLink]="['/facility-edit', element.id]">
+              <mat-icon matTooltip="Edit item" aria-hidden="false" aria-label="Edit item" fontIcon="edit"></mat-icon>
+            </a>
+          </span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Delete Column -->
+      <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef>Delete </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span matRipple [matRippleCentered]="true" class="p-2 rounded-[50%] flex justify-center">
+            <mat-icon matTooltip="Delete item" aria-hidden="false" aria-label="Delete item" fontIcon="delete"
+              (click)="deleteFacilities(element.id)"></mat-icon>
+          </span>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+</div>

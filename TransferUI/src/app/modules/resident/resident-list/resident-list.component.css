@@ -1,0 +1,21 @@
+.mat-column-name {
+  height: 55px;
+}
+.mat-mdc-row .mat-mdc-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  border-color: currentColor;
+}
+.mat-table-container {
+  position: relative;
+}
+
+mat-header-row {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
