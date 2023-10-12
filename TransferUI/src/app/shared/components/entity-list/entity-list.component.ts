@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-entity-list',
@@ -13,6 +13,9 @@ export class EntityListComponent {
   @Input() entityEditRoute: string = ''; // The route to edit an entity
   @Input() deleteProgress: number = 0;
 
-  // Define a method to handle entity deletion
-  deleteEntity(entityId: number) {}
+  @Output() deleteEntityFunction: EventEmitter<any> = new EventEmitter();
+  // Call the custom delete function
+  deleteEntity(entityId: number): void {
+    this.deleteEntityFunction.emit(entityId);
+  }
 }

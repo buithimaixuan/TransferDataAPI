@@ -17,29 +17,39 @@
       <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
         <mat-header-cell *matHeaderCellDef> {{ column | titlecase }} </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <ng-container *ngIf="column === 'dob' || column === 'createdDate'; else defaultCell">{{ element.dob |
-            customDate }}</ng-container>
-          <ng-container *ngIf="column === 'facility'; else defaultCell">{{ element.facility && element.facility.name
-            }}</ng-container>
-          <ng-container *ngIf="column === 'resident'; else defaultCell">{{ element.resident &&
-            (element.resident.firstName +
-            element.resident.lastName)
-            }}</ng-container>
-          <ng-container *ngIf="column === 'edit'; else defaultCell">
-            <span matRipple [matRippleCentered]="true" class="p-2 rounded-[50%]">
-              <a title="{{ entityName | titlecase }} edit" class="flex justify-center items-center"
-                [routerLink]="['/' + entityEditRoute, element.id]">
-                <mat-icon matTooltip="Edit item" aria-hidden="false" aria-label="Edit item" fontIcon="edit"></mat-icon>
-              </a>
-            </span>
+          <ng-container [ngSwitch]="column">
+            <ng-container *ngSwitchCase="'doB'">
+              {{ element.doB | customDate }}
+            </ng-container>
+            <ng-container *ngSwitchCase="'createdDate'">
+              {{ element.createdDate | customDate }}
+            </ng-container>
+            <ng-container *ngSwitchCase="'facility'">
+              {{ element.facility && element.facility.name }}
+            </ng-container>
+            <ng-container *ngSwitchCase="'resident'">
+              {{ element.resident && (element.resident.firstName + ' ' + element.resident.lastName) }}
+            </ng-container>
+            <ng-container *ngSwitchCase="'edit'">
+              <span matRipple [matRippleCentered]="true" class="p-2 rounded-[50%]">
+                <a title="{{ entityName | titlecase }} edit" class="flex justify-center items-center"
+                  [routerLink]="['/' + entityEditRoute, element.id]">
+                  <mat-icon matTooltip="Edit item" aria-hidden="false" aria-label="Edit item"
+                    fontIcon="edit"></mat-icon>
+                </a>
+              </span>
+            </ng-container>
+            <ng-container *ngSwitchCase="'delete'">
+              <span matRipple [matRippleCentered]="true" class="p-2 rounded-[50%] flex justify-center"
+                (click)="deleteEntity(element.id)">
+                <mat-icon matTooltip="Delete item" aria-hidden="false" aria-label="Delete item"
+                  fontIcon="delete"></mat-icon>
+              </span>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              {{ element[column] }}
+            </ng-container>
           </ng-container>
-          <ng-container *ngIf="column === 'delete'; else defaultCell">
-            <span matRipple [matRippleCentered]="true" class="p-2 rounded-[50%] flex justify-center">
-              <mat-icon matTooltip="Delete item" aria-hidden="false" aria-label="Delete item" fontIcon="delete"
-                (click)="deleteEntity(element.id)"></mat-icon>
-            </span>
-          </ng-container>
-          <ng-template #defaultCell>{{ element[column] }}</ng-template>
         </mat-cell>
       </ng-container>
 

@@ -40,7 +40,6 @@ import {
   ProgressNoteEditComponent,
 } from './modules/progress-note';
 import { CustomDatePipe } from './shared/pipes';
-
 @NgModule({
   declarations: [
     AppComponent,

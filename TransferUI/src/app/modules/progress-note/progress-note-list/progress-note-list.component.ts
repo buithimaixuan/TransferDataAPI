@@ -8,7 +8,6 @@ import { ProgressNoteService, ResidentService } from 'src/app/core/services';
 @Component({
   selector: 'app-progress-note-list',
   templateUrl: './progress-note-list.component.html',
-  styleUrls: ['./progress-note-list.component.css'],
 })
 export class ProgressNoteListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [

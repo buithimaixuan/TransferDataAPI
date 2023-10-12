@@ -8,14 +8,13 @@ import { FacilityService, ResidentService } from 'src/app/core/services';
 @Component({
   selector: 'app-resident-list',
   templateUrl: './resident-list.component.html',
-  styleUrls: ['./resident-list.component.css'],
 })
 export class ResidentListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'id',
-    'first_name',
-    'last_name',
-    'dob',
+    'firstName',
+    'lastName',
+    'doB',
     'facility',
     'edit',
     'delete',
