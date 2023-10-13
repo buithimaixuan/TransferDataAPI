@@ -6,7 +6,8 @@
     <form #angForm="ngForm" (ngSubmit)="submitForm(angForm)">
       <mat-form-field class="w-full">
         <mat-label>Name</mat-label>
-        <input matInput type="text" name="name" [(ngModel)]="formData.name" #name="ngModel" required />
+        <input matInput type="text" name="name" 
+        [(ngModel)]="formData.name" #name="ngModel" required />
         <mat-error *ngIf="name.invalid && (name.dirty || name.touched)">
           Name is required
         </mat-error>
@@ -14,14 +15,16 @@
 
       <mat-form-field class="w-full">
         <mat-label>Address</mat-label>
-        <input matInput type="text" name="address" [(ngModel)]="formData.address" #address="ngModel" required />
+        <input matInput type="text" name="address" 
+        [(ngModel)]="formData.address" #address="ngModel" required />
         <mat-error *ngIf="address.invalid && (address.dirty || address.touched)">
           Address is required
         </mat-error>
       </mat-form-field>
 
       <div class="mt-4 text-center">
-        <button mat-raised-button color="primary" type="submit" [disabled]="angForm.invalid">
+        <button mat-raised-button color="primary" 
+        type="submit" [disabled]="angForm.invalid">
           {{ submitButtonLabel }}
         </button>
       </div>

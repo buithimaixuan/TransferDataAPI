@@ -1,3 +1,9 @@
-<app-entity-list [entities]="residents" [displayedColumns]="displayedColumns" [entityName]="'Residents'"
-  [entityCreateRoute]="'/resident-create'" [entityEditRoute]="'/resident-edit'" [deleteProgress]="deleteProgress"
-  (deleteEntityFunction)="deleteResident($event)"></app-entity-list>
+<app-entity-list 
+  [entities]="residents" 
+  [displayedColumns]="displayedColumns" 
+  [entityName]="'Residents'"
+  [entityCreateRoute]="'/resident-create'" 
+  [entityEditRoute]="'/resident-edit'" 
+  [deleteProgress]="deleteProgress"
+  (deleteEntityFunction)="deleteResident($event)">
+</app-entity-list>

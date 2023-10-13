@@ -6,7 +6,6 @@ import { ProgressNote, ProgressNoteDTO, Resident } from 'src/app/core/models';
 import { ProgressNoteService, ResidentService } from 'src/app/core/services';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { DatePipe } from '@angular/common';
 
 @Component({

@@ -1,3 +1,9 @@
-<app-entity-list [entities]="facilities" [displayedColumns]="displayedColumns" [entityName]="'Facilities'"
-  [entityCreateRoute]="'/facility-create'" [entityEditRoute]="'/facility-edit'" [deleteProgress]="deleteProgress"
-  (deleteEntityFunction)="deleteFacilities($event)"></app-entity-list>
+<app-entity-list 
+  [entities]="facilities" 
+  [displayedColumns]="displayedColumns" 
+  [entityName]="'Facilities'"
+  [entityCreateRoute]="'/facility-create'" 
+  [entityEditRoute]="'/facility-edit'" 
+  [deleteProgress]="deleteProgress"
+  (deleteEntityFunction)="deleteFacilities($event)">
+</app-entity-list>

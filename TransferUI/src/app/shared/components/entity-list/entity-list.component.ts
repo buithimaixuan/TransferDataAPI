@@ -11,10 +11,10 @@ export class EntityListComponent {
   @Input() entityName: string = ''; // The name of the entity ("Facilities", "Residents", "Progress Notes")
   @Input() entityCreateRoute: string = ''; // The route to create a new entity
   @Input() entityEditRoute: string = ''; // The route to edit an entity
-  @Input() deleteProgress: number = 0;
+  @Input() deleteProgress: number = 0; // The number of percent progress to display
 
   @Output() deleteEntityFunction: EventEmitter<any> = new EventEmitter();
-  // Call the custom delete function
+
   deleteEntity(entityId: number): void {
     this.deleteEntityFunction.emit(entityId);
   }

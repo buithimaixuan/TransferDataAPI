@@ -5,17 +5,20 @@
     <div class=" flex justify-between mb-2">
       <p class="font-medium text-xl">{{ entityName }} information:</p>
       <span matRipple [matRippleCentered]="true"
-        class="p-2 rounded-[50%] flex justify-center bg-slate-300 cursor-pointer">
+        class="p-2 rounded-[50%] flex justify-center 
+        bg-slate-300 cursor-pointer">
         <a class=" flex justify-center items-center" [routerLink]="entityCreateRoute">
-          <mat-icon matTooltip="Create item" aria-hidden="false" aria-label="Create item" fontIcon="add"></mat-icon>
+          <mat-icon matTooltip="Create item" aria-hidden="false" 
+            aria-label="Create item" fontIcon="add"></mat-icon>
         </a>
       </span>
     </div>
     <mat-table [dataSource]="entities"
-      class="mat-elevation-z8 max-h-[570px] overflow-auto rounded-md mat-table-container">
+      class="mat-elevation-z8 max-h-[570px] 
+      overflow-auto rounded-md mat-table-container">
       <!-- Define the table columns based on the entity type -->
       <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
-        <mat-header-cell *matHeaderCellDef> {{ column | titlecase }} </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>{{ column | titlecase }}</mat-header-cell>
         <mat-cell *matCellDef="let element">
           <ng-container [ngSwitch]="column">
             <ng-container *ngSwitchCase="'doB'">
@@ -28,22 +31,26 @@
               {{ element.facility && element.facility.name }}
             </ng-container>
             <ng-container *ngSwitchCase="'resident'">
-              {{ element.resident && (element.resident.firstName + ' ' + element.resident.lastName) }}
+              {{ element.resident && 
+                (element.resident.firstName + ' ' + element.resident.lastName) }}
             </ng-container>
             <ng-container *ngSwitchCase="'edit'">
               <span matRipple [matRippleCentered]="true" class="p-2 rounded-[50%]">
-                <a title="{{ entityName | titlecase }} edit" class="flex justify-center items-center"
+                <a title="{{ entityName | titlecase }} edit" 
+                  class="flex justify-center items-center"
                   [routerLink]="['/' + entityEditRoute, element.id]">
-                  <mat-icon matTooltip="Edit item" aria-hidden="false" aria-label="Edit item"
+                  <mat-icon matTooltip="Edit item" aria-hidden="false" 
+                    aria-label="Edit item"
                     fontIcon="edit"></mat-icon>
                 </a>
               </span>
             </ng-container>
             <ng-container *ngSwitchCase="'delete'">
-              <span matRipple [matRippleCentered]="true" class="p-2 rounded-[50%] flex justify-center"
+              <span matRipple [matRippleCentered]="true" 
+                class="p-2 rounded-[50%] flex justify-center"
                 (click)="deleteEntity(element.id)">
-                <mat-icon matTooltip="Delete item" aria-hidden="false" aria-label="Delete item"
-                  fontIcon="delete"></mat-icon>
+                <mat-icon matTooltip="Delete item" aria-hidden="false" 
+                  aria-label="Delete item" fontIcon="delete"></mat-icon>
               </span>
             </ng-container>
             <ng-container *ngSwitchDefault>

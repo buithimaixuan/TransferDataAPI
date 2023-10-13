@@ -1,3 +1,11 @@
-<app-resident-form [title]="'CREATE RESIDENT'" [submitButtonLabel]="'CREATE RESIDENT'" [submitProgress]="submitProgress"
-  [resident]="resident" [minDate]="minDate" [maxDate]="maxDate" [selectedFacilityId]="selectedFacilityId"
-  [facilities]="facilities" (formSubmitted)="submitForm($event[0],$event[1])"></app-resident-form>
+<app-resident-form 
+  [title]="'CREATE RESIDENT'" 
+  [submitButtonLabel]="'CREATE RESIDENT'" 
+  [submitProgress]="submitProgress"
+  [resident]="resident" 
+  [minDate]="minDate" 
+  [maxDate]="maxDate" 
+  [selectedFacilityId]="selectedFacilityId"
+  [facilities]="facilities" 
+  (formSubmitted)="submitForm($event[0],$event[1])">
+</app-resident-form>

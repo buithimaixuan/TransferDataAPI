@@ -1,3 +1,9 @@
-<app-entity-list [entities]="progressNotes" [displayedColumns]="displayedColumns" [entityName]="'ProgressNotes'"
-  [entityCreateRoute]="'/progress-note-create'" [entityEditRoute]="'/progress-note-edit'"
-  [deleteProgress]="deleteProgress" (deleteEntityFunction)="deleteProgressNote($event)"></app-entity-list>
+<app-entity-list 
+  [entities]="progressNotes" 
+  [displayedColumns]="displayedColumns" 
+  [entityName]="'ProgressNotes'"
+  [entityCreateRoute]="'/progress-note-create'" 
+  [entityEditRoute]="'/progress-note-edit'"
+  [deleteProgress]="deleteProgress" 
+  (deleteEntityFunction)="deleteProgressNote($event)">
+</app-entity-list>
